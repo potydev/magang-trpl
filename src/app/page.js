@@ -1,12 +1,19 @@
 "use client";
 
-import { Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Briefcase, ArrowRight, ShieldCheck, HelpCircle } from "lucide-react";
+import { Briefcase, ArrowRight, ShieldCheck, Eye, EyeOff } from "lucide-react";
 
 function LandingContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="login-page">
@@ -52,7 +59,7 @@ function LandingContent() {
                 marginBottom: "15px"
               }}>
                 <div className="alert-message">
-                  {error === "oidc_not_initialized" && "Server SSO bermasalah. Silakan hubungi administrator."}
+                  {error === "oidc_not_initialized" && "Server SSO bermasalah. Silakan gunakan password login dibawah."}
                   {error === "auth_failed" && "Proses autentikasi gagal. Silakan coba kembali."}
                   {error !== "oidc_not_initialized" && error !== "auth_failed" && "Terjadi kesalahan sistem saat login."}
                 </div>
@@ -68,6 +75,60 @@ function LandingContent() {
               />
               Google SSO PNC
             </a>
+
+            <div className="divider">
+              <span>atau lanjutkan dengan</span>
+            </div>
+
+            {/* Traditional Form Login */}
+            <form action="/api/auth/form-login" method="POST" className="login-form">
+              <div className="form-group">
+                <label className="form-label" htmlFor="username">
+                  Email/akun pengguna<span className="required-star">*</span>
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="form-input"
+                    placeholder="Masukkan email/NIM/NIP/username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label" htmlFor="password">
+                  Password<span className="required-star">*</span>
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    className="form-input"
+                    placeholder="Masukkan password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={togglePasswordVisibility}
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+                <a href="#" className="forgot-password-link">Lupa kata sandi?</a>
+              </div>
+
+              <button type="submit" className="btn-submit">Masuk</button>
+            </form>
 
             <div className="form-footer" style={{ marginTop: "32px", fontSize: "11px", color: "#888", display: "flex", gap: "6px", justifyContent: "center", alignItems: "center" }}>
               <ShieldCheck size={14} style={{ color: "#0067bd" }} />
@@ -85,8 +146,8 @@ function LandingContent() {
 export default function LandingPage() {
   return (
     <Suspense fallback={
-      <div className="landing-container">
-        <div className="landing-card" style={{ justifyContent: "center", alignItems: "center", minHeight: "500px" }}>
+      <div className="login-page">
+        <div className="form-box" style={{ justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
           <div style={{ color: "#333", fontSize: "14px", fontWeight: "600" }}>Memuat...</div>
         </div>
       </div>
