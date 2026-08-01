@@ -28,7 +28,8 @@ export async function GET(request) {
       role: userRole
     };
 
-    const response = NextResponse.redirect(new URL("/dashboard", request.url));
+    const baseUrl = process.env.APP_URL || new URL(request.url).origin;
+    const response = NextResponse.redirect(new URL("/dashboard", baseUrl));
     response.cookies.set("magang_sso_session", JSON.stringify(userData), {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -38,6 +39,7 @@ export async function GET(request) {
     return response;
   } catch (error) {
     console.error("❌ OIDC Callback failed:", error.message);
-    return NextResponse.redirect(new URL("/?error=auth_failed", request.url));
+    const baseUrl = process.env.APP_URL || new URL(request.url).origin;
+    return NextResponse.redirect(new URL("/?error=auth_failed", baseUrl));
   }
 }

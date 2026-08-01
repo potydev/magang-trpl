@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getOIDCClient } from "@/lib/auth";
 
 export async function GET(request) {
-  const response = NextResponse.redirect(new URL("/", request.url));
+  const baseUrl = process.env.APP_URL || new URL(request.url).origin;
+  const response = NextResponse.redirect(new URL("/", baseUrl));
   response.cookies.delete("magang_sso_session");
 
   const client = await getOIDCClient();
