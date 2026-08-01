@@ -9,63 +9,68 @@ function LandingContent() {
   const error = searchParams.get("error");
 
   return (
-    <div className="landing-container">
-      <div className="landing-card">
-        
-        {/* Visual Brand Area */}
-        <div className="landing-brand-panel">
-          <div className="brand-overlay"></div>
-          <div className="brand-content">
-            <div className="icon-badge">
-              <Briefcase size={28} />
-            </div>
-            <span className="brand-tag">PORTAL AKADEMIK TRPL</span>
-            <h1 className="brand-title">
-              SIM MAGANG <br />
-              <span>Politeknik Negeri Cilacap</span>
+    <div className="login-page">
+      <div className="form-box">
+        {/* BAGIAN KIRI: AREA VISUAL KAMPUS */}
+        <div className="univ-identity-box">
+          <div className="univ-identity-content">
+            <span className="welcome-text">SELAMAT DATANG</span>
+            <h1 className="univ-name">
+              Sistem Informasi Magang <br />
+              Prodi TRPL PNC
             </h1>
-            <p className="brand-desc">
-              Sistem Informasi Manajemen Magang terintegrasi untuk mahasiswa, dosen pembimbing, dan mitra industri Program Studi Teknologi Rekayasa Perangkat Lunak.
-            </p>
           </div>
         </div>
 
-        {/* Login Area */}
-        <div className="landing-login-panel">
-          <div className="login-panel-wrapper">
-            
+        {/* BAGIAN KANAN: FORMULIR LOGIN */}
+        <div className="form-container">
+          <div className="form-wrapper">
             {/* Logo Kampus */}
-            <div className="landing-logo">
+            <div className="logo-container">
               <img
                 src="https://assets.siakadcloud.com/uploads/pnc/logoaplikasi/1877.jpg?1768381018"
-                alt="Logo PNC"
-                className="logo-img"
+                alt="Logo Politeknik Negeri Cilacap"
+                className="campus-logo"
               />
             </div>
 
-            <div className="login-header">
-              <h2 className="login-title">Akses Layanan Magang</h2>
-              <p className="login-subtitle">
-                Masuk menggunakan akun Single Sign-On (SSO) resmi Politeknik Negeri Cilacap.
+            <div className="form-header">
+              <h2 className="form-title">Masuk dan Verifikasi</h2>
+              <p className="form-subtitle">
+                <span className="badge-new">Baru!</span> Nikmati kemudahan sistem autentikasi tunggal untuk mengakses modul magang dengan satu akun.
               </p>
             </div>
 
             {error && (
-              <div className="error-box">
-                {error === "oidc_not_initialized" && "Konfigurasi SSO server sedang bermasalah. Silakan hubungi administrator."}
-                {error === "auth_failed" && "Proses autentikasi gagal. Silakan coba kembali."}
-                {error !== "oidc_not_initialized" && error !== "auth_failed" && "Terjadi kesalahan sistem saat login."}
+              <div className="alert alert-error" style={{
+                background: "#f8d7da",
+                border: "1px solid #f5c6cb",
+                color: "#721c24",
+                padding: "10px 14px",
+                borderRadius: "4px",
+                fontSize: "12.5px",
+                marginBottom: "15px"
+              }}>
+                <div className="alert-message">
+                  {error === "oidc_not_initialized" && "Server SSO bermasalah. Silakan hubungi administrator."}
+                  {error === "auth_failed" && "Proses autentikasi gagal. Silakan coba kembali."}
+                  {error !== "oidc_not_initialized" && error !== "auth_failed" && "Terjadi kesalahan sistem saat login."}
+                </div>
               </div>
             )}
 
-            {/* SSO Action Button */}
-            <a href="/api/auth/login" className="btn-sso-login">
-              <span>Lanjutkan dengan SSO PNC</span>
-              <ArrowRight size={18} />
+            {/* Google SSO Button */}
+            <a href="/api/auth/login" className="btn-google" id="login-btn">
+              <img
+                src="https://quantum.sevima.com/assets/images/logo-google.svg"
+                alt="Google Logo"
+                className="google-icon"
+              />
+              Google SSO PNC
             </a>
 
-            <div className="login-footer">
-              <ShieldCheck size={14} />
+            <div className="form-footer" style={{ marginTop: "32px", fontSize: "11px", color: "#888", display: "flex", gap: "6px", justifyContent: "center", alignItems: "center" }}>
+              <ShieldCheck size={14} style={{ color: "#0067bd" }} />
               <span>Sistem Autentikasi Terintegrasi</span>
             </div>
 
