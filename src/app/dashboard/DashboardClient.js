@@ -4,7 +4,7 @@ import { useState } from "react";
 import { 
   LogOut, Plus, CheckCircle2, Clock, XCircle, FileText, 
   User, ClipboardList, BookOpen, Send, Calendar, Award, Building, 
-  MapPin, Check, GraduationCap, ChevronRight 
+  MapPin, Check, GraduationCap, ChevronRight, Home 
 } from "lucide-react";
 
 export default function DashboardClient({ user }) {
