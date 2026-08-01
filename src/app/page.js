@@ -52,7 +52,7 @@ function LandingContent() {
 
             {error && (
               <div className="error-box">
-                {error === "oidc_not_initialized" && "Konfigurasi SSO belum selesai. Silakan gunakan bypass mode untuk demo."}
+                {error === "oidc_not_initialized" && "Konfigurasi SSO server sedang bermasalah. Silakan hubungi administrator."}
                 {error === "auth_failed" && "Proses autentikasi gagal. Silakan coba kembali."}
                 {error !== "oidc_not_initialized" && error !== "auth_failed" && "Terjadi kesalahan sistem saat login."}
               </div>
@@ -63,22 +63,6 @@ function LandingContent() {
               <span>Lanjutkan dengan SSO PNC</span>
               <ArrowRight size={18} />
             </a>
-
-            <div className="divider">
-              <span>mode pengembangan (bypass)</span>
-            </div>
-
-            {/* Development Bypasses */}
-            <div className="bypass-group">
-              <a href="/api/auth/login?mockRole=mahasiswa" className="btn-bypass btn-bypass-student">
-                <span className="bypass-role">Mahasiswa Demo</span>
-                <span className="bypass-desc">Masuk sebagai Dapot Matthew (NIM: 250215010)</span>
-              </a>
-              <a href="/api/auth/login?mockRole=dosen" className="btn-bypass btn-bypass-lecturer">
-                <span className="bypass-role">Dosen Demo</span>
-                <span className="bypass-desc">Masuk sebagai Dr. Ir. Budi Santoso, M.T.</span>
-              </a>
-            </div>
 
             <div className="login-footer">
               <ShieldCheck size={14} />

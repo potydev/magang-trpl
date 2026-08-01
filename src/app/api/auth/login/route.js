@@ -7,8 +7,13 @@ export async function GET(request) {
 
   const client = await getOIDCClient();
 
-  // If client is missing or mock parameter is active, handle mock login
-  if (!client || mockRole) {
+  // If in production and client is not initialized, fail safely
+  if (process.env.NODE_ENV === "production" && !client) {
+    return NextResponse.redirect(new URL("/?error=oidc_not_initialized", request.url));
+  }
+
+  // Handle mock login ONLY in non-production environments
+  if (process.env.NODE_ENV !== "production" && (!client || mockRole)) {
     const dummyUser = mockRole === "dosen" ? {
       name: "Dr. Ir. Budi Santoso, M.T.",
       email: "budisantoso@pnc.ac.id",
@@ -22,7 +27,7 @@ export async function GET(request) {
     const response = NextResponse.redirect(new URL("/dashboard", request.url));
     response.cookies.set("magang_sso_session", JSON.stringify(dummyUser), {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
       path: "/",
       maxAge: 60 * 60 * 24, // 1 day
     });
