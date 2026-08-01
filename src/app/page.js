@@ -73,7 +73,7 @@ function LandingContent() {
                 alt="Google Logo"
                 className="google-icon"
               />
-              Google SSO PNC
+              Google
             </a>
 
             <div className="divider">
